@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="calculator.css">
+</head>
+<body>
+    <div id="calculator">
+            <input id="display" readonly>
+            <strong><input id="timedisplay" readonly></strong>
+            <input id="namedisplay" readonly>
+
+        <div id="keys">
+            <button onclick="buttontodisplay('+')" class="operator">+</button>
+            <button onclick="buttontodisplay('7')">7</button>
+            <button onclick="buttontodisplay('8')">8</button>
+            <button onclick="buttontodisplay('9')">9</button>
+            <button onclick="buttontodisplay('-')" class="operator">-</button>
+            <button onclick="buttontodisplay('4')">4</button>
+            <button onclick="buttontodisplay('5')">5</button>
+            <button onclick="buttontodisplay('6')">6</button>
+            <button onclick="buttontodisplay('*')" class="operator">x</button>
+            <button onclick="buttontodisplay('1')">1</button>
+            <button onclick="buttontodisplay('2')">2</button>
+            <button onclick="buttontodisplay('3')">3</button>
+            <button onclick="buttontodisplay('/')" class="operator">÷</button>
+            <button onclick="buttontodisplay('0')">0</button>
+            <button onclick="buttontodisplay('.')">.</button>
+            <button onclick="calculate()">=</button>
+            <button onclick="clearDisplay()" class="operator">C</button>
+        </div>
+    </div>
+
+    <script>
+        let name1 = prompt("Enter your name:");
+
+         function updateTime() {
+            timedisplay.value = new Date().toLocaleTimeString();
+        }
+        updateTime(); // Run once immediately
+        setInterval(updateTime, 1000);
+
+        // Add button value to display
+        function buttontodisplay(input) {
+            display.value += input;
+        }
+
+            today = new Date();
+            let hour = today.getHours();
+
+            if (hour >= 0 && hour <=11){
+            document.getElementById("namedisplay").value = (`Good Morning ${name1}`);
+        }
+        else if (hour >= 12 && hour <=15){
+            document.getElementById("namedisplay").value = (`Good afternoon ${name1}`);
+        }
+        else if (hour >= 16 && hour <=19){
+            document.getElementById("namedisplay").value = (`Good evening ${name1}`);
+        }
+        else if (hour >= 20 && hour <=23){
+            document.getElementById("namedisplay").value = (`Good night ${name1}`);
+        }
+
+        function clearDisplay(){
+             display.value = "";
+        }
+
+        function calculate(){
+            try {
+                display.value = eval(display.value);
+            } 
+            catch (error) {
+                display.value = "Error";
+            }
+        }
+
+        // Keyboard support - add this block
+document.addEventListener('keydown', function(event) {
+    let key = event.key;
+    
+    // Numbers 0-9 and decimal point
+    if ((key >= '0' && key <= '9') || key === '.') {
+        buttontodisplay(key);
+    }
+    // Operators
+    else if (key === '+' || key === '-') {
+        buttontodisplay(key);
+    }
+    else if (key === '*') {
+        buttontodisplay('*');
+    }
+    else if (key === '/') {
+        event.preventDefault(); // Prevents quick find in Firefox
+        buttontodisplay('/');
+    }
+    // Enter or = to calculate
+    else if (key === 'Enter' || key === '=') {
+        event.preventDefault();
+        calculate();
+    }
+    // Backspace to delete last character
+    else if (key === 'Backspace') {
+        display.value = display.value.slice(0, -1);
+    }
+    // Escape or C to clear
+    else if (key === 'Escape' || key.toLowerCase() === 'c') {
+        clearDisplay();
+    }
+});
+
+    </script>
+</body>
+</html>
